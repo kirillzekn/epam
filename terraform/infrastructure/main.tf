@@ -20,7 +20,7 @@ data "archive_file" "file_function_app" {
 }
 
 locals {
-       publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.output_path.output_path}"
+       publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.file_function_app.output_path}"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -79,7 +79,7 @@ resource "null_resource" "function_app_publish" {
   }
   depends_on = [local.publish_code_command]
   triggers = {
-    input_json = filemd5(data.archive_file.output_path.output_path)
+    input_json = filemd5(data.archive_file.file_function_app.output_path)
     publish_code_command = local.publish_code_command
   }
 }
