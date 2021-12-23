@@ -49,6 +49,7 @@ resource "azurerm_function_app" "function_app" {
     "FUNCTIONS_WORKER_RUNTIME" = "python",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = ""
   }
+  
   os_type = "linux"
   site_config {
     linux_fx_version          = "python|3.7"
