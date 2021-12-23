@@ -23,6 +23,11 @@ locals {
        publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.output_path.output_path}"
 }
 
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.project}-rg"
+  location = var.location
+}
+
 resource "azurerm_app_service_plan" "app_service_plan" {
   name                = "${var.project}-app-service-plan"
   resource_group_name = azurerm_resource_group.rg.name
@@ -49,7 +54,7 @@ resource "azurerm_function_app" "function_app" {
     "FUNCTIONS_WORKER_RUNTIME" = "python",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = ""
   }
-  
+
   os_type = "linux"
   site_config {
     linux_fx_version          = "python|3.7"
