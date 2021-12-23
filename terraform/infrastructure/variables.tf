@@ -25,20 +25,20 @@ variable "mysql-admin-password" {
   type = string
   description = "Password to authenticate to MySQL Server"
 }
-# variable "mysql-version" {
-#   type = string
-#   description = "MySQL Server version to deploy"
-#   default = "8.0"
-# }
-# variable "mysql-sku-name" {
-#   type = string
-#   description = "MySQL SKU Name"
-#   default = "8.0"
-# }
-# variable "mysql-storage" {
-#   type = string
-#   description = "MySQL Storage in MB"
-#   default = "5120"
-# }
+variable "mysql-version" {
+  type = string
+  description = "MySQL Server version to deploy"
+  default = "8.0"
+}
+variable "mysql-sku-name" {
+  type = string
+  description = "MySQL SKU Name"
+  default = "8.0"
+}
+variable "mysql-storage" {
+  type = string
+  description = "MySQL Storage in MB"
+  default = "5120"
+}
 
 
