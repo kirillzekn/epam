@@ -32,8 +32,8 @@ steps:
 - task: TerraformCLI@0
   inputs:
     #command: 'plan'
-    command: 'apply'
-    #command: 'destroy'
+    #command: 'apply'
+    command: 'destroy'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
     #workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/ansible'
     environmentServiceName: 'azure-resource-manager-svc'
