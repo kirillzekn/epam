@@ -119,7 +119,7 @@ resource "azurerm_static_site" "my_webapp" {
 ###############################
 # Storage account
 resource "azurerm_storage_account" "storage_account" {
-  name = "${var.project}-storage"
+  name = "${var.project}storage"
   resource_group_name = azurerm_resource_group.rg.name
   location = var.location
   account_tier = "Standard"
