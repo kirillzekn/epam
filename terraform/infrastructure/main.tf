@@ -51,7 +51,7 @@ resource "azurerm_function_app" "function_app" {
   location                   = var.location
   app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "https://${var.storage_account_name}.blob.core.windows.net/${azurerm_storage_blob.storage_blob.storage_container.name}/${azurerm_storage_blob.storage_blob.name}${var.storage_account_access_key}",
+    "WEBSITE_RUN_FROM_PACKAGE" = "https://${azurerm_storage_account.storage_account.name}.blob.core.windows.net/${azurerm_storage_blob.storage_blob.storage_container.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
     "FUNCTIONS_WORKER_RUNTIME" = "python",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = ""
   }
@@ -60,8 +60,8 @@ resource "azurerm_function_app" "function_app" {
   site_config {
     linux_fx_version          = "python|3.7"
   }
-  storage_account_name       = var.storage_account_name
-  storage_account_access_key = var.storage_account_access_key
+  storage_account_name       = azurerm_storage_account.storage_account.name
+  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
   version                    = "~3"
 
 }
@@ -120,9 +120,33 @@ resource "azurerm_static_site" "my_webapp" {
 # Storage account
 resource "azurerm_storage_blob" "storage_blob" {
   name = "${filesha256(data.archive_file.file_function_app.output_path)}.zip"
-  storage_account_name = var.storage_account_name
-  #storage_container_name = var.storage_container_name
-  storage_container_name = "zekn-function"
+  storage_account_name = azurerm_storage_account.storage_account.name
+  storage_container_name = azurerm_storage_container.storage_container.name
   type = "Block"
   source = data.archive_file.file_function_app.output_path
+}
+
+resource "azurerm_storage_account" "storage_account" {
+  name = "${var.project}-storage"
+  resource_group_name = azurerm_resource_group.resource_group.name
+  location = var.location
+  account_tier = "Standard"
+  account_replication_type = "LRS"
+}
+
+data "azurerm_storage_account_blob_container_sas" "storage_account_blob_container_sas" {
+  connection_string = azurerm_storage_account.storage_account.primary_connection_string
+  container_name    = azurerm_storage_container.storage_container.name
+
+  start = "2021-01-01T00:00:00Z"
+  expiry = "2022-01-01T00:00:00Z"
+
+  permissions {
+    read   = true
+    add    = false
+    create = false
+    write  = false
+    delete = false
+    list   = false
+  }
 }
