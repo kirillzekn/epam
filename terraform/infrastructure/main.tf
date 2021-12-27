@@ -118,14 +118,6 @@ resource "azurerm_static_site" "my_webapp" {
 
 ###############################
 # Storage account
-resource "azurerm_storage_blob" "storage_blob" {
-  name = "${filesha256(data.archive_file.file_function_app.output_path)}.zip"
-  storage_account_name = azurerm_storage_account.storage_account.name
-  storage_container_name = azurerm_storage_container.storage_container.name
-  type = "Block"
-  source = data.archive_file.file_function_app.output_path
-}
-
 resource "azurerm_storage_account" "storage_account" {
   name = "${var.project}-storage"
   resource_group_name = azurerm_resource_group.resource_group.name
@@ -133,7 +125,18 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier = "Standard"
   account_replication_type = "LRS"
 }
-
+resource "azurerm_storage_container" "storage_container" {
+  name                  = "function_scm"
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  container_access_type = "private"
+}
+resource "azurerm_storage_blob" "storage_blob" {
+  name = "${filesha256(data.archive_file.file_function_app.output_path)}.zip"
+  storage_account_name = azurerm_storage_account.storage_account.name
+  storage_container_name = azurerm_storage_container.storage_container.name
+  type = "Block"
+  source = data.archive_file.file_function_app.output_path
+}
 data "azurerm_storage_account_blob_container_sas" "storage_account_blob_container_sas" {
   connection_string = azurerm_storage_account.storage_account.primary_connection_string
   container_name    = azurerm_storage_container.storage_container.name
