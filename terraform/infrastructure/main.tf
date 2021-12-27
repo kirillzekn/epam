@@ -51,7 +51,7 @@ resource "azurerm_function_app" "function_app" {
   location                   = var.location
   app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "https://${var.storage_account_name}.blob.core.windows.net/${var.storage_container_name}/${azurerm_storage_blob.storage_blob.name}${var.storage_account_access_key}",
+    "WEBSITE_RUN_FROM_PACKAGE" = "https://${var.storage_account_name}.blob.core.windows.net/${azurerm_storage_blob.storage_blob.storage_container.name}/${azurerm_storage_blob.storage_blob.name}${var.storage_account_access_key}",
     "FUNCTIONS_WORKER_RUNTIME" = "python",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = ""
   }
@@ -121,7 +121,8 @@ resource "azurerm_static_site" "my_webapp" {
 resource "azurerm_storage_blob" "storage_blob" {
   name = "${filesha256(data.archive_file.file_function_app.output_path)}.zip"
   storage_account_name = var.storage_account_name
-  storage_container_name = var.storage_container_name
+  #storage_container_name = var.storage_container_name
+  storage_container_name = "zekn-function"
   type = "Block"
   source = data.archive_file.file_function_app.output_path
 }
