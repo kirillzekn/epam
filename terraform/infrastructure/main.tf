@@ -126,7 +126,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type = "LRS"
 }
 resource "azurerm_storage_container" "storage_container" {
-  name                  = "function_scm"
+  name                  = "function-scm"
   storage_account_name  = azurerm_storage_account.storage_account.name
   container_access_type = "private"
 }
