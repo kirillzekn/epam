@@ -15,7 +15,7 @@ provider "azurerm" {
 # Data
 data "archive_file" "file_function_app" {
   type        = "zip"
-  source_dir  = "../function-app"
+  source_dir  = "./function-app"
   output_path = "function-app.zip"
 }
 ###############################
@@ -116,12 +116,3 @@ resource "azurerm_static_site" "my_webapp" {
   location            = azurerm_resource_group.rg.location
 }
 
-###############################
-# Blob Storage
-resource "azurerm_storage_blob" "storage_blob" {
-  name = "${filesha256(data.archive_file.file_function_app.output_path)}.zip"
-  storage_account_name = var.storage_account_name
-  storage_container_name = var.backendAzureRmContainerName
-  type = "Block"
-  source = data.archive_file.file_function_app.output_path
-}
