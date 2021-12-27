@@ -21,7 +21,7 @@ data "archive_file" "file_function_app" {
 ###############################
 # Locals
 locals {
-       publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.file_function_app.output_path} --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true"
+       publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.file_function_app.output_path}"
 }
 ###############################
 # Resource Group
