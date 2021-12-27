@@ -51,7 +51,7 @@ resource "azurerm_function_app" "function_app" {
   location                   = var.location
   app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "https://${azurerm_storage_account.storage_account.name}.blob.core.windows.net/${azurerm_storage_blob.storage_blob.storage_container.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
+    "WEBSITE_RUN_FROM_PACKAGE" = "https://${azurerm_storage_account.storage_account.name}.blob.core.windows.net/${azurerm_storage_container.storage_container.name}/${azurerm_storage_blob.storage_blob.name}${data.azurerm_storage_account_blob_container_sas.storage_account_blob_container_sas.sas}",
     "FUNCTIONS_WORKER_RUNTIME" = "python",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = ""
   }
