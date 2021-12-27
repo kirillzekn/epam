@@ -15,8 +15,8 @@ provider "azurerm" {
 # Data
 data "archive_file" "file_function_app" {
   type        = "zip"
-  source_dir  = "./function-app/function.py"
-  output_path = "./function-app/function-app.zip"
+  source_dir  = "./function-app/"
+  output_path = "./function-app.zip"
 }
 ###############################
 # Locals
