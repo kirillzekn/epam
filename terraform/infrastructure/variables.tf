@@ -1,6 +1,6 @@
 variable client_id {}
 variable client_secret {}
-#variable archive_file { }
+variable backendAzureRmContainerName { }
 variable storage_account_access_key {
   type = string
 }
