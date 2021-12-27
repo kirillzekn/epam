@@ -20,9 +20,9 @@ data "archive_file" "file_function_app" {
 }
 ###############################
 # Locals
-locals {
-       publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.file_function_app.output_path}"
-}
+# locals {
+#        publish_code_command = "az webapp deployment source config-zip --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_function_app.function_app.name} --src ${data.archive_file.file_function_app.output_path}"
+# }
 ###############################
 # Resource Group
 resource "azurerm_resource_group" "rg" {
@@ -51,7 +51,7 @@ resource "azurerm_function_app" "function_app" {
   location                   = var.location
   app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "1",
+    "WEBSITE_RUN_FROM_PACKAGE" = "https://${var.storage_account_name}.blob.core.windows.net/${var.storage_container_name}/${azurerm_storage_blob.storage_blob.name}${var.storage_account_access_key}",
     "FUNCTIONS_WORKER_RUNTIME" = "python",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = ""
   }
@@ -67,16 +67,16 @@ resource "azurerm_function_app" "function_app" {
 }
 ###############################
 # Null resource for Function
-resource "null_resource" "function_app_publish" {
-  provisioner "local-exec" {
-    command = local.publish_code_command
-  }
-  depends_on = [local.publish_code_command]
-  triggers = {
-    input_json = filemd5(data.archive_file.file_function_app.output_path)
-    publish_code_command = local.publish_code_command
-  }
-}
+# resource "null_resource" "function_app_publish" {
+#   provisioner "local-exec" {
+#     command = local.publish_code_command
+#   }
+#   depends_on = [local.publish_code_command]
+#   triggers = {
+#     input_json = filemd5(data.archive_file.file_function_app.output_path)
+#     publish_code_command = local.publish_code_command
+#   }
+# }
 ###############################
 # SQL server 
 resource "azurerm_mysql_server" "mysql-server" {
@@ -116,3 +116,12 @@ resource "azurerm_static_site" "my_webapp" {
   location            = azurerm_resource_group.rg.location
 }
 
+###############################
+# Storage account
+resource "azurerm_storage_blob" "storage_blob" {
+  name = "${filesha256(data.archive_file.file_function_app.output_path)}.zip"
+  storage_account_name = var.storage_account_name
+  storage_container_name = var.storage_container_name
+  type = "Block"
+  source = data.archive_file.file_function_app.output_path
+}
