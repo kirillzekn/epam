@@ -110,11 +110,11 @@ resource "azurerm_mysql_database" "mysql-db" {
 }
 ###############################
 # Static Web App
-resource "azurerm_static_site" "my_webapp" {
-  name                = "${var.project}-static-webapp"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-}
+#resource "azurerm_static_site" "my_webapp" {
+#  name                = "${var.project}-static-webapp"
+#  resource_group_name = azurerm_resource_group.rg.name
+#  location            = azurerm_resource_group.rg.location
+#}
 
 ###############################
 # Storage account
