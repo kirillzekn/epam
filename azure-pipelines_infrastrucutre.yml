@@ -22,12 +22,13 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var $(storage_account_access_key)'
     backendServiceArm: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
     backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
     backendAzureRmContainerName: 'terraform'
     backendAzureRmKey: 'terraformdev.tfstate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
 
 
 # - task: TerraformTaskV2@2
