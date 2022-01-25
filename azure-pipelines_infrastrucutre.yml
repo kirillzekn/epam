@@ -13,6 +13,7 @@ steps:
     retryCount: '2'
 
 - task: TerraformInstaller@0
+  name: install_TF
   inputs:
     terraformVersion: 'latest'
 
