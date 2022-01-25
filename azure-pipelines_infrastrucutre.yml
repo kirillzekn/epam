@@ -29,17 +29,17 @@ steps:
     backendAzureRmKey: 'epam-tf-state.tfstate'
     allowTelemetryCollection: true
 
-#- task: TerraformCLI@0
-#  inputs:
-#    #command: 'plan'
-#    command: 'apply'
-#    #command: 'destroy'
-#    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-#    #workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/ansible'
-#    environmentServiceName: 'azure-resource-manager-svc'
-#    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-#    #commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var admin_ssh_username=$(admin_ssh_username) -var admin_ssh_key=$(caCertificate.secureFilePath)'
-#    allowTelemetryCollection: true
+- task: TerraformCLI@0
+ inputs:
+   #command: 'plan'
+   command: 'apply'
+   #command: 'destroy'
+   workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+   #workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/ansible'
+   environmentServiceName: 'azure-resource-manager-svc'
+   commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
+   #commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var admin_ssh_username=$(admin_ssh_username) -var admin_ssh_key=$(caCertificate.secureFilePath)'
+   allowTelemetryCollection: true
 
 - task: AzureMysqlDeployment@1
   inputs:
