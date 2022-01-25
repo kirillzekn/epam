@@ -22,11 +22,12 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    backendServiceArm: 'azure-resource-manager-svc'
+    backendServiceArm: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
     backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
     backendAzureRmContainerName: 'epamtfbackendcontainer'
     backendAzureRmKey: 'terraform.tfstate'
+
 
 - task: TerraformTaskV2@2
   inputs:
@@ -34,7 +35,7 @@ steps:
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    environmentServiceNameAzureRM: 'azure-resource-manager-svc'
+    environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
 
 - task: TerraformTaskV2@2
   inputs:
@@ -42,7 +43,7 @@ steps:
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    environmentServiceNameAzureRM: 'azure-resource-manager-svc'
+    environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
 
 - task: AzureMysqlDeployment@1
   inputs:
