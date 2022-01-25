@@ -12,48 +12,37 @@ steps:
     secureFile: 'azure_id_rsa.pub'
     retryCount: '2'
 
+
 - task: TerraformInstaller@0
   name: install_TF
   inputs:
     terraformVersion: 'latest'
 
-- task: TerraformCLI@0
+- task: TerraformTaskV2@2
   inputs:
+    provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-svc'
-    ensureBackend: true
     backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
-    backendAzureRmResourceGroupLocation: 'westeurope'
     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
-    backendAzureRmStorageAccountSku: 'Standard_LRS'
     backendAzureRmContainerName: 'epamtfbackendcontainer'
-    backendAzureRmKey: 'epam-tf-state.tfstate'
-    allowTelemetryCollection: true
+    backendAzureRmKey: 'terraform.tfstate'
 
-- task: TerraformCLI@0
+- task: TerraformTaskV2@2
   inputs:
-    command: 'validate'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    allowTelemetryCollection: true
-
-- task: TerraformCLI@0
-  inputs:
+    provider: 'azurerm'
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    environmentServiceName: 'azure-resource-manager-svc'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    allowTelemetryCollection: true
+    environmentServiceNameAzureRM: 'azure-resource-manager-svc'
 
-- task: TerraformCLI@0
+- task: TerraformTaskV2@2
   inputs:
+    provider: 'azurerm'
     command: 'apply'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    environmentServiceName: 'azure-resource-manager-svc'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    allowTelemetryCollection: true
+    environmentServiceNameAzureRM: 'azure-resource-manager-svc'
 
 - task: AzureMysqlDeployment@1
   inputs:
