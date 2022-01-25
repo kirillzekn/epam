@@ -25,7 +25,7 @@ steps:
     backendServiceArm: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
     backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
-    backendAzureRmContainerName: 'epamtfbackendcontainer'
+    backendAzureRmContainerName: 'terraform'
     backendAzureRmKey: 'terraform.tfstate'
 
 
