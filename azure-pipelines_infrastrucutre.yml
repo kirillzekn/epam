@@ -26,7 +26,7 @@ steps:
     backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
     backendAzureRmContainerName: 'terraform'
-    backendAzureRmKey: '$(storage_account_access_key)'
+    backendAzureRmKey: 'terraformdev.tfstate'
 
 
 # - task: TerraformTaskV2@2
