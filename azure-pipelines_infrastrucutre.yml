@@ -6,50 +6,48 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: DownloadSecureFile@1
-  name: caCertificate
-  inputs:
-    secureFile: 'azure_id_rsa.pub'
-    retryCount: '2'
+# - task: DownloadSecureFile@1
+#   name: caCertificate
+#   inputs:
+#     secureFile: 'azure_id_rsa.pub'
+#     retryCount: '2'
 
+# - task: CmdLine@2
+#   inputs:
+#     script: 'export ARM_ACCESS_KEY=$(storage_account_access_key)'
 
-- task: CmdLine@2
-  inputs:
-    script: 'export ARM_ACCESS_KEY=$(storage_account_access_key)'
+# - task: TerraformInstaller@0
+#   name: install_TF
+#   inputs:
+#     terraformVersion: 'latest'
 
-- task: TerraformInstaller@0
-  name: install_TF
-  inputs:
-    terraformVersion: 'latest'
+# - task: TerraformTaskV2@2
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'init'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+#     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var $(storage_account_access_key)'
+#     backendServiceArm: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
+#     backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
+#     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
+#     backendAzureRmContainerName: 'terraform'
+#     backendAzureRmKey: 'terraform.tfstate'
 
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var $(storage_account_access_key)'
-    backendServiceArm: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
-    backendAzureRmResourceGroupName: 'epam-tf-backeng-rg'
-    backendAzureRmStorageAccountName: 'epamtfbackendstorage'
-    backendAzureRmContainerName: 'terraform'
-    backendAzureRmKey: 'terraform.tfstate'
+# - task: TerraformTaskV2@2
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'plan'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+#     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
+#     environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
 
-
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
-
-- task: TerraformTaskV2@2
-  inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
+# - task: TerraformTaskV2@2
+#   inputs:
+#     provider: 'azurerm'
+#     command: 'apply'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+#     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
+#     environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
 
 - task: AzureMysqlDeployment@1
   inputs:
