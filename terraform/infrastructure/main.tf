@@ -102,7 +102,7 @@ resource "azurerm_mysql_server" "mysql-server" {
 ###############################
 # SQL DB
 resource "azurerm_mysql_database" "mysql-db" {
-  name                = "${var.project}-mysql-db"
+  name                = "${var.project}_mysql_db"
   resource_group_name = azurerm_resource_group.rg.name
   server_name         = azurerm_mysql_server.mysql-server.name
   charset             = "utf8"
