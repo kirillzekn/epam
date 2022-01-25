@@ -6,7 +6,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
 - task: DownloadSecureFile@1
   name: caCertificate
   inputs:
@@ -31,7 +30,6 @@ steps:
     backendAzureRmContainerName: 'epamtfbackendcontainer'
     backendAzureRmKey: 'epam-tf-state.tfstate'
     allowTelemetryCollection: true
-
 
 - task: TerraformCLI@0
   inputs:
