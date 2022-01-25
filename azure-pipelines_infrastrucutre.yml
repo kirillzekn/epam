@@ -7,17 +7,21 @@ pool:
 
 steps:
 
+
 - task: DownloadSecureFile@1
   name: caCertificate
   inputs:
     secureFile: 'azure_id_rsa.pub'
     retryCount: '2'
 
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: 'latest'
+
 - task: TerraformCLI@0
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    #workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/ansible'
     backendType: 'azurerm'
     backendServiceArm: 'azure-resource-manager-svc'
     ensureBackend: true
@@ -29,16 +33,28 @@ steps:
     backendAzureRmKey: 'epam-tf-state.tfstate'
     allowTelemetryCollection: true
 
+
 - task: TerraformCLI@0
   inputs:
-    #command: 'plan'
-    command: 'apply'
-    #command: 'destroy'
+    command: 'validate'
     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-    #workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/ansible'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
+    allowTelemetryCollection: true
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
     environmentServiceName: 'azure-resource-manager-svc'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-    #commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var admin_ssh_username=$(admin_ssh_username) -var admin_ssh_key=$(caCertificate.secureFilePath)'
+    allowTelemetryCollection: true
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+    environmentServiceName: 'azure-resource-manager-svc'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
     allowTelemetryCollection: true
 
 - task: AzureMysqlDeployment@1
