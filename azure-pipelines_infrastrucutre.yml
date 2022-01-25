@@ -49,5 +49,5 @@ steps:
     SqlUsername: '$(mysql-admin-login)@zekn-mysql-server'
     SqlPassword: '$(mysql-admin-password)'
     TaskNameSelector: 'SqlTaskFile'
-    SqlFile: './sql/mysql.sql'
+    SqlFile: '$(System.DefaultWorkingDirectory)/terraform/infrastructure/sql/mysql.sql'
     IpDetectionMethod: 'AutoDetect'
