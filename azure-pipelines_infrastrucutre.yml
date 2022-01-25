@@ -41,3 +41,13 @@ steps:
     #commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var admin_ssh_username=$(admin_ssh_username) -var admin_ssh_key=$(caCertificate.secureFilePath)'
     allowTelemetryCollection: true
 
+- task: AzureMysqlDeployment@1
+  inputs:
+    azureSubscription: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
+    ServerName: 'zekn-mysql-server'
+    DatabaseName: 'zekn-mysql-db'
+    SqlUsername: '$(mysql-admin-login)'
+    SqlPassword: '$(mysql-admin-password)'
+    TaskNameSelector: 'SqlTaskFile'
+    SqlFile: './sql/mysql.sql'
+    IpDetectionMethod: 'AutoDetect'
