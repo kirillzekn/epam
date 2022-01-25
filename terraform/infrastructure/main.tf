@@ -1,4 +1,10 @@
 terraform {
+  backend "azurerm" {
+  storage_account_name = "epamtfbackendstorage"
+  container_name = "terraform"
+  key = "terraform.tfstate"
+  access_key = var.storage_account_access_key
+  }
   required_providers {
     azurerm = {
       source = "hashicorp/azurerm"
