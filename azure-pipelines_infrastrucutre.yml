@@ -46,7 +46,7 @@ steps:
     azureSubscription: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
     ServerName: 'zekn-mysql-server.mysql.database.azure.com'
     DatabaseName: 'zekn-mysql-db'
-    SqlUsername: '$(mysql-admin-login)'
+    SqlUsername: '$(mysql-admin-login)@zekn-mysql-server'
     SqlPassword: '$(mysql-admin-password)'
     TaskNameSelector: 'SqlTaskFile'
     SqlFile: './sql/mysql.sql'
