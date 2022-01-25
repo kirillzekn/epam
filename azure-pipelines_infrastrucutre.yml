@@ -27,6 +27,7 @@ steps:
     backendAzureRmStorageAccountName: 'epamtfbackendstorage'
     backendAzureRmContainerName: 'terraform'
     backendAzureRmKey: 'terraformdev.tfstate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
 
 
 # - task: TerraformTaskV2@2
