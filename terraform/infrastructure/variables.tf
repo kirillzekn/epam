@@ -1,7 +1,7 @@
 variable client_id {}
 variable client_secret {}
 #variable storage_container_name {}
-variable storage_account_access_key {}
+#variable storage_account_access_key {}
 #variable storage_account_name {}
 
 
