@@ -35,29 +35,29 @@ steps:
     backendAzureRmKey: 'terraform.tfstate'
 
 
-# - task: TerraformTaskV2@2
-#   inputs:
-#     provider: 'azurerm'
-#     command: 'plan'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-#     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-#     environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
+    environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
 
-# - task: TerraformTaskV2@2
-#   inputs:
-#     provider: 'azurerm'
-#     command: 'apply'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
-#     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
-#     environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/infrastructure'
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var mysql-admin-login=$(mysql-admin-login) -var mysql-admin-password=$(mysql-admin-password)'
+    environmentServiceNameAzureRM: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
 
-# - task: AzureMysqlDeployment@1
-#   inputs:
-#     azureSubscription: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
-#     ServerName: 'zekn-mysql-server.mysql.database.azure.com'
-#     DatabaseName: 'zekn_mysql_db'
-#     SqlUsername: '$(mysql-admin-login)@zekn-mysql-server'
-#     SqlPassword: '$(mysql-admin-password)'
-#     TaskNameSelector: 'SqlTaskFile'
-#     SqlFile: '$(System.DefaultWorkingDirectory)/terraform/infrastructure/sql/mysql.sql'
-#     IpDetectionMethod: 'AutoDetect'
+- task: AzureMysqlDeployment@1
+  inputs:
+    azureSubscription: 'Pay-As-You-Go(7eb18278-1682-4ad9-9148-814e2b6039f9)'
+    ServerName: 'zekn-mysql-server.mysql.database.azure.com'
+    DatabaseName: 'zekn_mysql_db'
+    SqlUsername: '$(mysql-admin-login)@zekn-mysql-server'
+    SqlPassword: '$(mysql-admin-password)'
+    TaskNameSelector: 'SqlTaskFile'
+    SqlFile: '$(System.DefaultWorkingDirectory)/terraform/infrastructure/sql/mysql.sql'
+    IpDetectionMethod: 'AutoDetect'
