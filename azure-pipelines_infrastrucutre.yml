@@ -7,7 +7,6 @@ pool:
 
 steps:
 
-
 - task: DownloadSecureFile@1
   name: caCertificate
   inputs:
