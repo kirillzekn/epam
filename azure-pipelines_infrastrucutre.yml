@@ -13,6 +13,10 @@ steps:
     retryCount: '2'
 
 
+- task: CmdLine@2
+  inputs:
+    script: 'export ARM_ACCESS_KEY=$(storage_account_access_key)'
+
 - task: TerraformInstaller@0
   name: install_TF
   inputs:
